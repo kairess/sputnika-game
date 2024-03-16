@@ -1,5 +1,6 @@
 import { Engine, Render, Runner, World, Bodies, Body, Events, Composite } from 'matter-js';
 import { PLANETS } from './planets';
+import './style.css';
 
 const engine = Engine.create()
 const world = engine.world;
@@ -18,6 +19,8 @@ const render = Render.create({
 
 Render.run(render);
 Runner.run(engine);
+
+const clientRect = render.canvas.getBoundingClientRect();
 
 const centerGravity = Bodies.circle(700, 300, 30, {
   isStatic: true,
@@ -64,7 +67,10 @@ const createPlanet = () => {
 };
 
 render.canvas.addEventListener('mousedown', (event) => {
-  const mousePosition = { x: event.clientX, y: event.clientY };
+  const mousePosition = {
+    x: event.clientX - clientRect.left,
+    y: event.clientY - clientRect.top
+  };
   const distanceToPlanet = Math.sqrt((mousePosition.x - shootingPlanet.position.x) ** 2 + (mousePosition.y - shootingPlanet.position.y) ** 2);
 
   if (distanceToPlanet <= shootingPlanet.circleRadius) {
@@ -72,16 +78,15 @@ render.canvas.addEventListener('mousedown', (event) => {
     initialMousePosition.x = mousePosition.x;
     initialMousePosition.y = mousePosition.y;
   }
-
-  if (!disableAction) {
-
-  }
 });
 
 window.addEventListener('mousemove', (event) => {
   if (isDragging) {
     const newPosition = { x: event.clientX, y: event.clientY };
-    Body.setPosition(shootingPlanet, { x: newPosition.x, y: newPosition.y });
+    Body.setPosition(shootingPlanet, {
+      x: newPosition.x - clientRect.left,
+      y: newPosition.y - clientRect.top
+    });
   }
 });
 
@@ -97,7 +102,10 @@ window.addEventListener('mouseup', (event) => {
 
     Body.setStatic(shootingPlanet, false);
 
-    const releasePosition = { x: event.clientX, y: event.clientY };
+    const releasePosition = {
+      x: event.clientX - clientRect.left,
+      y: event.clientY - clientRect.top
+    };
     const forceMagnitude = 0.0005;
     const forceDirection = {
       x:initialMousePosition.x - releasePosition.x,
