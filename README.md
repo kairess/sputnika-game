@@ -1,5 +1,7 @@
 # Sputnika Game
 
+[Demo](https://kairess.github.io/sputnika-game)
+
 [Sputnika Game](https://egunan.itch.io/sputnika-game) clone using JavaScript and Matter.js.
 
 ![](result.png)
