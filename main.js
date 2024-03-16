@@ -59,7 +59,7 @@ const createPlanet = () => {
     index: index,
     isStatic: true,
     render: {
-      sprite: { texture: `${planet.name}.png` }
+      sprite: { texture: `./${planet.name}.png` }
     },
   });
 
@@ -170,7 +170,7 @@ Events.on(engine, 'collisionStart', (event) => {
         {
           index: index + 1,
           render: {
-            sprite: { texture: `${newPlanet.name}.png` }
+            sprite: { texture: `./${newPlanet.name}.png` }
           },
         },
       );
